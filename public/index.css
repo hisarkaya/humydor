@@ -1,0 +1,32 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    background-color: #f5f7fb;
+}
+
+#root {
+    height: 100%;
+}
+
+.hmy-signin,
+.hmy-loader,
+.hmy-signup,
+.hmy-signup-form,
+.hmy-terms-and-conditions {
+    height: 100%;
+}
+
+.hmy-signin > .column,
+.hmy-loader > .column,
+.hmy-signup > .column,
+.hmy-signup-form > .column {
+    max-width: 414px;
+}
+
+.hmy-terms-and-conditions {
+    max-width: 600px;
+}
+
