@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import history from '../history';
 import Role from '../helpers/role';
-import Header from './Header';
 import Loader from './Loader';
 import AuthRoute from './AuthRoute';
 import Dashboard from './membership/Dashboard';
@@ -13,6 +12,7 @@ import SignIn from './common/SignIn';
 import SignUp from './common/SignUp';
 import SignUpForm from './common/SignUpForm';
 import TermsConditions from './common/TermsConditions';
+import Cigars from './membership/Cigars';
 
 const App = (props) => {
     if(props.isWindowLoading) {
@@ -20,8 +20,8 @@ const App = (props) => {
     }
     return (
         <Router history={history}>
-            <Header />
             <AuthRoute exact path="/" roles={[Role.Admin, Role.Member]} component={Dashboard} />
+            <AuthRoute exact path="/cigars" roles={[Role.Admin, Role.Member]} component={Cigars} />
             <AuthRoute exact path="/admin" roles={[Role.Admin]} component={AdminPanel} />
             <Route path="/terms-and-conditions" exact component={TermsConditions} />
             <Route path="/signup-form/" exact component={SignUpForm} />

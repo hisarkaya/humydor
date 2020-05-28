@@ -11,6 +11,10 @@ body {
     height: 100%;
 }
 
+.ui.menu {
+    border-radius: 0px !important;
+}
+
 .hmy-signin,
 .hmy-loader,
 .hmy-signup,
@@ -29,4 +33,54 @@ body {
 .hmy-terms-and-conditions {
     max-width: 600px;
 }
+
+.hmy-header-menu {
+    margin: 0!important;
+    height: 50px !important;
+    background-color: #fff !important;
+}
+
+.hmy-main-menu {
+    margin-top: 0!important;
+}
+
+.hmy-member-template {
+    position: relative;
+    min-height: 100vh;
+}
+
+.hmy-footer{
+    background-color: #fff;
+    border-top: solid 2px #f2f2f2;
+    font-size: 90%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 5rem;  
+    margin: 0 !important;
+    color: #838383;
+}
+
+.hmy-page {
+    margin-top: 2rem;
+    padding-bottom: 7rem; 
+}
+
+.hmy-page-container {
+    padding-top: 0.4rem;
+}
+
+.hmy-brand {
+    text-transform: lowercase;
+    font-size: 180%;
+    color: #d08039;
+    background-image: url(https://cdn11.bigcommerce.com/s-g3lg32v10p/images/stencil/500x659/products/1138/7573/9029867569182__28839.1573118113.png?c=2);
+    background-position: -3px -8px;
+    background-repeat: no-repeat;
+    background-size: 40px;
+    width: 40px;
+    height: 25px;
+    padding-left: 43px;
+}
+
 
