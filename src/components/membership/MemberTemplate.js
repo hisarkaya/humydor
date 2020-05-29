@@ -8,15 +8,20 @@ import { connect } from 'react-redux';
 class MemberTemplate extends React.Component {
 
     render() {
-        const { isAuthenticated, pageCode, pageTitle, className } = this.props;
+        const { isAuthenticated, pageCode, pageTitle, className, role, error, errorType, isLoading, children } = this.props;
         const templateClassName = `ui container hmy-page ${className}`;
+        const errorMsgClass = `ui ${errorType || 'negative'} ${error ? 'visible' : 'hidden'} message`;
+        const pageContainerClass = `ui ${isLoading ? 'loading' : ''} segment hmy-page-container`;
         return (
             <div className="hmy-member-template">
-                <Header isAuthenticated={isAuthenticated} selected={pageCode}  />
+                <Header isAuthenticated={isAuthenticated} role={role} selected={pageCode}  />
                 <div className={templateClassName}>
                     <Breadcrumb isAuthenticated={isAuthenticated} text={pageTitle} />
-                    <div className="hmy-page-container">
-                        {this.props.children}
+                    <div className={pageContainerClass}>
+                        <div className={errorMsgClass}>
+                            <p>{error}</p>
+                        </div>
+                        {children}
                     </div>
                     
                 </div>
@@ -29,7 +34,10 @@ class MemberTemplate extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        isLoading: state.auth.isContainerLoading,
+        error: state.auth.errorContainer,
+        role: state.auth.user.role
     }
 }
 

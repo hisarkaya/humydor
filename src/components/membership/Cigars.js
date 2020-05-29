@@ -7,10 +7,10 @@ class Cigars extends React.Component {
             <MemberTemplate
                 className="hmy-cigars"
                 pageCode="cigars"
-                pageTitle="Cigars">
-                <div className="ui segment">
+                pageTitle="cigars">
+               
                 The cigars content
-                </div>
+             
             </MemberTemplate>
         );
     }

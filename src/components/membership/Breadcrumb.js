@@ -7,7 +7,7 @@ const Breadcrumb = props => {
     }
 
     return (
-        <h2 class="ui header">{props.text}</h2>
+        <h2 className="ui header">{props.text}</h2>
     );
 }
 

@@ -1,8 +1,5 @@
 import {
 
-    SET_WINDOW_LOADING,
-    SET_CONTAINER_LOADING,
-    SET_ITEM_LOADING,
     GET_SMU_SUCCESS,
     GET_USER_SUCCESS,
     SET_AUTH_WARNING,
@@ -13,13 +10,7 @@ import {
 
 import history from '../history';
 import { firebase_core, firebase_auth, firebase_store } from '../firebase';
-
-const setWindowLoading = payload => {
-    return {
-        type: SET_WINDOW_LOADING,
-        payload
-    }
-}
+import { setWindowLoading, setContainerLoading, setItemLoading } from './common';
 
 const getSMUSuccess = smuUser => {
     return {
@@ -119,20 +110,6 @@ export const getAuth = (type, provider, source) => dispatch => {
             });
     } else {
         firebase_auth.signInWithRedirect(_provider);
-    }
-}
-
-const setItemLoading = payload => {
-    return {
-        type: SET_ITEM_LOADING,
-        payload
-    }
-}
-
-const setContainerLoading = payload => {
-    return {
-        type: SET_CONTAINER_LOADING,
-        payload
     }
 }
 
