@@ -3,12 +3,19 @@ import {
     FETCH_COUNTRIES,
     FETCH_COUNTRY,
     EDIT_COUNTRY,
-    DELETE_COUNTRY
+    DELETE_COUNTRY,
+    CREATE_BRAND,
+    FETCH_BRANDS,
+    FETCH_BRAND,
+    EDIT_BRAND,
+    DELETE_BRAND
+
 } from './types';
 
 import history from '../history';
 import { setContainerLoading } from './common';
 import { firebase_core, firebase_store } from '../firebase';
+
 
 const createCountrySuccess = payload => {
     return {
@@ -71,7 +78,6 @@ export const fetchCountries = () => dispatch => {
             dispatch(setContainerLoading({ flag: false, error }));
         });
 }
-
 
 const fetchCountrySuccess = payload => {
     return {
@@ -137,6 +143,143 @@ export const deleteCountry = countryId => dispatch => {
         .then(() => {
             dispatch(setContainerLoading({ flag: false }));
             dispatch(deleteCountrySuccess(countryId));
+            history.push('/countries');
+        })
+        .catch(error => {
+            dispatch(setContainerLoading({ flag: false, error }));
+        });
+
+}
+
+
+
+
+const createBrandSuccess = payload => {
+    return {
+        type: CREATE_BRAND,
+        payload
+    }
+}
+
+export const createBrand = formValues => (dispatch, getState) => {
+    const { uid } = getState().auth.smuUser;
+    const { name, code } = formValues;
+
+    dispatch(setContainerLoading({ flag: true }));
+
+    firebase_store.collection("brands")
+        .add({
+            name,
+            code,
+            userId: uid,
+            state: 1,
+            created: firebase_core.firestore.FieldValue.serverTimestamp()
+        })
+        .then(docRef => {
+            docRef.get()
+                .then(doc => {
+                    dispatch(createBrandSuccess({ id: docRef.id, brand: doc.data() }));
+                    dispatch(setContainerLoading({ flag: false }));
+                    history.push('/countries');
+                })
+                .catch(error => {
+                    dispatch(setContainerLoading({ flag: false, error }));
+                });
+        })
+        .catch(error => {
+            dispatch(setContainerLoading({ flag: false, error }));
+        });
+}
+
+const fetchBrandsSuccess = payload => {
+    return {
+        type: FETCH_BRANDS,
+        payload
+    }
+}
+
+export const fetchBrands = () => dispatch => {
+
+    var brands = {};
+    dispatch(setContainerLoading({ flag: true }));
+    firebase_store.collection("brands")
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                brands[doc.id] = doc.data();
+            });
+            dispatch(setContainerLoading({ flag: false }));
+            dispatch(fetchBrandsSuccess(brands));
+        })
+        .catch(error => {
+            dispatch(setContainerLoading({ flag: false, error }));
+        });
+}
+
+const fetchBrandSuccess = payload => {
+    return {
+        type: FETCH_BRAND,
+        payload
+    }
+}
+
+export const fetchBrand = (brandId) => dispatch => {
+
+    dispatch(setContainerLoading({ flag: true }));
+    firebase_store.collection("brands")
+        .doc(brandId)
+        .get()
+        .then(doc => {
+            if (doc.exists) {
+                dispatch(fetchBrandSuccess({ id: brandId, brand: doc.data() }));
+            }
+            dispatch(setContainerLoading({ flag: false }));
+        })
+        .catch(error => {
+            dispatch(setContainerLoading({ flag: false, error }));
+        });
+}
+
+const editBrandSuccess = payload => {
+    return {
+        type: EDIT_BRAND,
+        payload
+    }
+}
+
+export const editBrand = (brandId, formValues) => dispatch => {
+
+    const { name, code } = formValues;
+
+    dispatch(setContainerLoading({ flag: true }));
+    firebase_store.collection("brands")
+        .doc(brandId)
+        .update({ name, code })
+        .then(() => {
+            dispatch(setContainerLoading({ flag: false }));
+            dispatch(editBrandSuccess({ id: brandId, name, code }));
+            history.push('/countries');
+        })
+        .catch(error => {
+            dispatch(setContainerLoading({ flag: false, error }));
+        });
+}
+
+const deleteBrandSuccess = payload => {
+    return {
+        type: DELETE_BRAND,
+        payload
+    }
+}
+
+export const deleteBrand = brandId => dispatch => {
+    dispatch(setContainerLoading({ flag: true }));
+    firebase_store.collection("brands")
+        .doc(brandId)
+        .delete()
+        .then(() => {
+            dispatch(setContainerLoading({ flag: false }));
+            dispatch(deleteBrandSuccess(brandId));
             history.push('/countries');
         })
         .catch(error => {

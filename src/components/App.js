@@ -7,11 +7,19 @@ import Role from '../helpers/role';
 import Loader from './Loader';
 import AuthRoute from './AuthRoute';
 import Dashboard from './membership/Dashboard';
+
 import CountryList from './admin/Country/CountryList';
 import CountryCreate from './admin/Country/CountryCreate';
 import CountryEdit from './admin/Country/CountryEdit';
+import CountryDisplay from './admin/Country/CountryDisplay';
 import CountryDelete from './admin/Country/CountryDelete';
+
 import BrandList from './admin/Brand/BrandList';
+import BrandCreate from './admin/Brand/BrandCreate';
+import BrandEdit from './admin/Brand/BrandEdit';
+import BrandDisplay from './admin/Brand/BrandDisplay';
+import BrandDelete from './admin/Brand/BrandDelete';
+
 import NameList from './admin/Name/NameList';
 import SignIn from './common/SignIn';
 import SignUp from './common/SignUp';
@@ -28,11 +36,19 @@ const App = (props) => {
             
             <AuthRoute exact path="/" roles={[Role.Admin, Role.Member]} component={Dashboard} />
             <AuthRoute exact path="/cigars" roles={[Role.Admin, Role.Member]} component={Cigars} />
+
             <AuthRoute exact path="/countries" roles={[Role.Admin]} component={CountryList} />
             <AuthRoute exact path="/countries/new" roles={[Role.Admin]} component={CountryCreate} />
             <AuthRoute exact path="/countries/edit/:id" roles={[Role.Admin]} component={CountryEdit} />
             <AuthRoute exact path="/countries/delete/:id" roles={[Role.Admin]} component={CountryDelete} />
+            <AuthRoute exact path="/countries/display/:id" roles={[Role.Admin]} component={CountryDisplay} />
+
             <AuthRoute exact path="/brands" roles={[Role.Admin]} component={BrandList} />
+            <AuthRoute exact path="/brands/new" roles={[Role.Admin]} component={BrandCreate} />
+            <AuthRoute exact path="/brands/edit/:id" roles={[Role.Admin]} component={BrandEdit} />
+            <AuthRoute exact path="/brands/delete/:id" roles={[Role.Admin]} component={BrandDelete} />
+            <AuthRoute exact path="/brands/display/:id" roles={[Role.Admin]} component={BrandDisplay} />
+
             <AuthRoute exact path="/names" roles={[Role.Admin]} component={NameList} />
            
             <Route path="/terms-and-conditions" exact component={TermsConditions} />

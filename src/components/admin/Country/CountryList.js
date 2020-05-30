@@ -24,6 +24,7 @@ class CountryList extends React.Component {
             const country = countries[item];
             const editTo = `/countries/edit/${item}`;
             const deleteTo = `/countries/delete/${item}`;
+            const displayTo = `/countries/display/${item}`;
             const flagClass = `${country.code} flag`;
 
             return (
@@ -34,6 +35,9 @@ class CountryList extends React.Component {
 
                     <td className="right aligned collapsing">
                         <div className="ui small basic icon buttons">
+                        <Link className="ui button" to={displayTo}>
+                                <i className="icon blue info circle" />
+                            </Link>
                             <Link className="ui button" to={editTo}>
                                 <i className="edit icon" />
                             </Link>

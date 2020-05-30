@@ -13,4 +13,10 @@ export const FETCH_COUNTRY = 'FETCH_COUNTRY';
 export const EDIT_COUNTRY = 'EDIT_COUNTRY';
 export const DELETE_COUNTRY = 'DELETE_COUNTRY';
 
+export const CREATE_BRAND = 'CREATE_BRAND';
+export const FETCH_BRANDS = 'FETCH_BRANDS';
+export const FETCH_BRAND = 'FETCH_BRAND';
+export const EDIT_BRAND = 'EDIT_BRAND';
+export const DELETE_BRAND = 'DELETE_BRAND';
+
 

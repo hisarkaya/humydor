@@ -4,7 +4,12 @@ import {
     EDIT_COUNTRY,
     FETCH_COUNTRIES,
     FETCH_COUNTRY,
-    DELETE_COUNTRY
+    DELETE_COUNTRY,
+    CREATE_BRAND,
+    FETCH_BRANDS,
+    FETCH_BRAND,
+    EDIT_BRAND,
+    DELETE_BRAND
 } from '../actions/types';
 
 const defaultState = {
@@ -24,19 +29,47 @@ export default (state = defaultState, action) => {
         case CREATE_COUNTRY:
             return { ...state, countries: { ...state.countries, [payload.id]: payload.country } };
         case EDIT_COUNTRY:
-            return { 
-                    ...state, 
-                    countries: { 
-                        ...state.countries, 
-                        [payload.id]: {  
-                            ...state.countries[payload.id],
-                            name: payload.name,
-                            code: payload.code
-                        } 
-                    } 
-                };
+            return {
+                ...state,
+                countries: {
+                    ...state.countries,
+                    [payload.id]: {
+                        ...state.countries[payload.id],
+                        name: payload.name,
+                        code: payload.code
+                    }
+                }
+            };
         case DELETE_COUNTRY:
-            return _.omit(state.countries, payload);
+            return {
+                ...state,
+                countries: _.omit(state.countries, payload)
+            }
+
+        case FETCH_BRANDS:
+            return { ...state, brands: { ...state.brands, ...payload } };
+        case FETCH_BRAND:
+            return { ...state, brands: { ...state.brands, [payload.id]: payload.brand } };
+        case CREATE_BRAND:
+            return { ...state, brands: { ...state.brands, [payload.id]: payload.brand } };
+        case EDIT_BRAND:
+            return {
+                ...state,
+                brands: {
+                    ...state.brands,
+                    [payload.id]: {
+                        ...state.brands[payload.id],
+                        name: payload.name,
+                        code: payload.code
+                    }
+                }
+            };
+        case DELETE_BRAND:
+            return {
+                ...state,
+                brands: _.omit(state.brands, payload)
+            }
+
         default:
             return state;
     }
