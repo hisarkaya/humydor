@@ -21,11 +21,21 @@ import BrandDisplay from './admin/Brand/BrandDisplay';
 import BrandDelete from './admin/Brand/BrandDelete';
 
 import NameList from './admin/Name/NameList';
+import NameCreate from './admin/Name/NameCreate';
+import NameEdit from './admin/Name/NameEdit';
+import NameDisplay from './admin/Name/NameDisplay';
+import NameDelete from './admin/Name/NameDelete';
+
 import SignIn from './common/SignIn';
 import SignUp from './common/SignUp';
 import SignUpForm from './common/SignUpForm';
 import TermsConditions from './common/TermsConditions';
-import Cigars from './membership/Cigars';
+
+import CigarList from './membership/cigars/CigarList';
+import CigarCreate from './membership/cigars/CigarCreate';
+import CigarEdit from './membership/cigars/CigarEdit';
+import CigarDelete from './membership/cigars/CigarDelete';
+import CigarDisplay from './membership/cigars/CigarDisplay';
 
 const App = (props) => {
     if(props.isWindowLoading) {
@@ -35,7 +45,11 @@ const App = (props) => {
         <Router history={history}>
             
             <AuthRoute exact path="/" roles={[Role.Admin, Role.Member]} component={Dashboard} />
-            <AuthRoute exact path="/cigars" roles={[Role.Admin, Role.Member]} component={Cigars} />
+            <AuthRoute exact path="/cigars" roles={[Role.Admin, Role.Member]} component={CigarList} />
+            <AuthRoute exact path="/cigars/new" roles={[Role.Admin, Role.Member]} component={CigarCreate} />
+            <AuthRoute exact path="/cigars/edit/:id" roles={[Role.Admin, Role.Member]} component={CigarEdit} />
+            <AuthRoute exact path="/cigars/delete/:id" roles={[Role.Admin, Role.Member]} component={CigarDelete} />
+            <AuthRoute exact path="/cigars/display/:id" roles={[Role.Admin, Role.Member]} component={CigarDisplay} />
 
             <AuthRoute exact path="/countries" roles={[Role.Admin]} component={CountryList} />
             <AuthRoute exact path="/countries/new" roles={[Role.Admin]} component={CountryCreate} />
@@ -50,6 +64,10 @@ const App = (props) => {
             <AuthRoute exact path="/brands/display/:id" roles={[Role.Admin]} component={BrandDisplay} />
 
             <AuthRoute exact path="/names" roles={[Role.Admin]} component={NameList} />
+            <AuthRoute exact path="/names/new" roles={[Role.Admin]} component={NameCreate} />
+            <AuthRoute exact path="/names/edit/:id" roles={[Role.Admin]} component={NameEdit} />
+            <AuthRoute exact path="/names/delete/:id" roles={[Role.Admin]} component={NameDelete} />
+            <AuthRoute exact path="/names/display/:id" roles={[Role.Admin]} component={NameDisplay} />
            
             <Route path="/terms-and-conditions" exact component={TermsConditions} />
             <Route path="/signup-form/" exact component={SignUpForm} />

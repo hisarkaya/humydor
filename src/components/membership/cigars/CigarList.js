@@ -2,36 +2,35 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import MemberTemplate from '../../membership/MemberTemplate';
-import Toolbar from '../../membership/Toolbar';
-import { fetchBrands } from '../../../actions/database';
+import MemberTemplate from '../MemberTemplate';
+import Toolbar from '../Toolbar';
 
+import { fetchCigars } from '../../../actions/cigar';
 
-class BrandList extends React.Component {
+class CigarList extends React.Component {
 
     componentDidMount() {
-        this.props.fetchBrands();
+        this.props.fetchCigars();
     }
 
     renderList = () => {
-        const { brands } = this.props;
+        const { cigars } = this.props;
 
-        if (!brands) {
+        if (!cigars) {
             return null;
         }
 
-        return Object.keys(brands).map(item => {
-            const brand = brands[item];
-            const editTo = `/brands/edit/${item}`;
-            const deleteTo = `/brands/delete/${item}`;
-            const displayTo = `/brands/display/${item}`;
-            const flagClass = `${brand.country.code} flag`;
+        return Object.keys(cigars).map(item => {
+            const cigar = cigars[item];
+            const editTo = `/cigars/edit/${item}`;
+            const deleteTo = `/cigars/delete/${item}`;
+            const displayTo = `/cigars/display/${item}`;
+            const flagClass = `${cigar.country.code} flag`;
             
-
             return (
                 <tr key={item}>
-                    <td className="center aligned collapsing" data-label="countryCode"><i className={flagClass} /></td>
-                    <td data-label="name">{brand.name}</td>
+                    <td className="collapsing"><i className={flagClass} /></td>
+                    <td data-label="title">{`${cigar.brand.name} ${cigar.name}`}</td>
                     <td className="right aligned collapsing">
                         <div className="ui small basic icon buttons">
                         <Link className="ui button" to={displayTo}>
@@ -47,29 +46,28 @@ class BrandList extends React.Component {
                     </td>
                 </tr>
             );
-
-
         });
     }
-
+    
     render() {
         return (
             <MemberTemplate
-                className="hmy-brand-list"
-                pageCode="database"
-                pageTitle="brand list">
+                className="hmy-cigar-list"
+                pageCode="cigars"
+                pageTitle="cigars">
 
-                <Toolbar >
-                    <Link to="/brands/new" className="ui labeled icon button">
-                        <i className="plus blue icon" />Add
-                    </Link>
-                </Toolbar>
+                    <Toolbar>
+                        <Link to="/cigars/new" className="ui labeled icon button">
+                            <i className="plus blue icon" />Add
+                        </Link>
+                    </Toolbar>
 
-                <table className="ui celled table">
+
+                    <table className="ui celled table">
                     <thead>
                         <tr>
                             <th></th>
-                            <th>name</th>
+                            <th>cigar name</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -83,10 +81,10 @@ class BrandList extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
-        brands: state.database.brands
+        cigars: state.cigars
     }
 }
 
-export default connect(mapStateToProps, { fetchBrands })(BrandList);
+export default connect(mapStateToProps, { fetchCigars })(CigarList);

@@ -2,23 +2,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import MemberTemplate from '../../membership/MemberTemplate';
+import MemberTemplate from '../MemberTemplate';
 import Modal from '../../Modal';
 import history from '../../../history';
-import { fetchBrand, deleteBrand } from '../../../actions/database';
+import { fetchName, deleteName } from '../../../actions/database';
 
-class BrandDelete extends React.Component {
+class NameDelete extends React.Component {
 
     componentDidMount() {
-        this.props.fetchBrand(this.props.match.params.id);
+        this.props.fetchName(this.props.match.params.id);
     }
 
 
     renderContent = () => {
-        if (!this.props.brand) {
-            return 'are you sure you want to delete this brand?';
+        if (!this.props.name) {
+            return 'are you sure you want to delete this name?';
         } else {
-            return `are you sure you want to delete this brand with name: ${this.props.brand.name}?`;
+            return `are you sure you want to delete this name with title: ${this.props.name.title}?`;
 
         }
     }
@@ -28,8 +28,8 @@ class BrandDelete extends React.Component {
             <React.Fragment>
                 <button 
                     className="ui button negative"
-                    onClick={() => this.props.deleteBrand(this.props.match.params.id)}>delete</button>
-                <Link to="/brands" className="ui button">cancel</Link>
+                    onClick={() => this.props.deleteName(this.props.match.params.id)}>delete</button>
+                <Link to="/names" className="ui button">cancel</Link>
             </React.Fragment>
         );
     }
@@ -37,12 +37,12 @@ class BrandDelete extends React.Component {
     render() {
         return (
             <MemberTemplate
-                className="hmy-brand-delete"
+                className="hmy-name-delete"
                 pageCode="database"
-                pageTitle="delete brand">
+                pageTitle="delete name">
                 
                 <Modal 
-                    title="delete brand"
+                    title="delete name"
                     content={this.renderContent()}
                     actions={this.renderActions()}
                     onDismiss={() => history.push('/')}
@@ -55,8 +55,8 @@ class BrandDelete extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        brand: state.database.brands && state.database.brands[ownProps.match.params.id]
+        name: state.database.brands && state.database.names[ownProps.match.params.id]
     }
 }
 
-export default connect(mapStateToProps, { fetchBrand, deleteBrand })(BrandDelete);
+export default connect(mapStateToProps, { fetchName, deleteName })(NameDelete);

@@ -5,11 +5,12 @@ import MemberTemplate from '../../membership/MemberTemplate';
 import BrandForm from './BrandForm';
 
 import Toolbar from '../../membership/Toolbar';
-import { fetchBrand, editBrand } from '../../../actions/database';
+import { fetchBrand, editBrand, fetchCountries } from '../../../actions/database';
 
 class BrandEdit extends React.Component {
 
     componentDidMount = () => {
+        this.props.fetchCountries();
         this.props.fetchBrand(this.props.match.params.id);
     }
 
@@ -17,10 +18,28 @@ class BrandEdit extends React.Component {
         this.props.editBrand(this.props.match.params.id, formValues);
     }
 
+    getCountryOption = () => {
+        const { countries } = this.props;
+        var options = [];
+        if (countries) {
+            Object.keys(countries).forEach(id => {
+                var country = countries[id];
+                options.push({
+                    key: id,
+                    flag: country.code,
+                    text: country.name,
+                    value: id
+                });
+            });
+        }
+        return options;
+    }
+
     render() {
         if (!this.props.brand) {
             return null;
         }
+
         return (
             <MemberTemplate
                 className="hmy-brand-create"
@@ -28,14 +47,15 @@ class BrandEdit extends React.Component {
                 pageTitle="edit brand">
 
                 <Toolbar >
-                    <Link to="/countries" className="ui labeled icon blue button">
+                    <Link to="/brands" className="ui labeled icon blue button">
                         <i className="list icon" />List
                     </Link>
                 </Toolbar>
     
                 <BrandForm
-                 initialValues={this.props.brand}
+                 initialValues={{name:this.props.brand.name, countryId: this.props.brand.country.id}}
                  onSubmit={this.onSubmit} 
+                 countries={this.getCountryOption()}
                  />
 
             </MemberTemplate>
@@ -45,8 +65,9 @@ class BrandEdit extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        brand: state.database.countries[ownProps.match.params.id]
+        brand: state.database.brands[ownProps.match.params.id],
+        countries: state.database.countries
     }
 }
 
-export default connect(mapStateToProps, { fetchBrand , editBrand })(BrandEdit);
+export default connect(mapStateToProps, { fetchBrand , editBrand, fetchCountries })(BrandEdit);

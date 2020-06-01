@@ -9,13 +9,22 @@ import {
     FETCH_BRANDS,
     FETCH_BRAND,
     EDIT_BRAND,
-    DELETE_BRAND
+    DELETE_BRAND,
+    CREATE_NAME,
+    FETCH_NAMES,
+    FETCH_NAME,
+    EDIT_NAME,
+    DELETE_NAME
 } from '../actions/types';
 
 const defaultState = {
     countries: {},
     brands: {},
-    names: {}
+    names: {},
+    countriesFetched: false,
+    brandsFetched: false,
+    namesFetched: false
+
 }
 
 export default (state = defaultState, action) => {
@@ -23,7 +32,7 @@ export default (state = defaultState, action) => {
 
     switch (type) {
         case FETCH_COUNTRIES:
-            return { ...state, countries: { ...state.countries, ...payload } };
+            return { ...state, countries: { ...state.countries, ...payload }, countriesFetched: true };
         case FETCH_COUNTRY:
             return { ...state, countries: { ...state.countries, [payload.id]: payload.country } };
         case CREATE_COUNTRY:
@@ -47,7 +56,7 @@ export default (state = defaultState, action) => {
             }
 
         case FETCH_BRANDS:
-            return { ...state, brands: { ...state.brands, ...payload } };
+            return { ...state, brands: { ...state.brands, ...payload }, brandsFetched: true };
         case FETCH_BRAND:
             return { ...state, brands: { ...state.brands, [payload.id]: payload.brand } };
         case CREATE_BRAND:
@@ -60,7 +69,7 @@ export default (state = defaultState, action) => {
                     [payload.id]: {
                         ...state.brands[payload.id],
                         name: payload.name,
-                        code: payload.code
+                        country: payload.country
                     }
                 }
             };
@@ -68,6 +77,33 @@ export default (state = defaultState, action) => {
             return {
                 ...state,
                 brands: _.omit(state.brands, payload)
+            }
+
+
+
+        case FETCH_NAMES:
+            return { ...state, names: { ...state.names, ...payload }, namesFetched: true };
+        case FETCH_NAME:
+            return { ...state, names: { ...state.names, [payload.id]: payload.name } };
+        case CREATE_NAME:
+            return { ...state, names: { ...state.names, [payload.id]: payload.name } };
+        case EDIT_NAME:
+            return {
+                ...state,
+                names: {
+                    ...state.names,
+                    [payload.id]: {
+                        ...state.names[payload.id],
+                        title: payload.title,
+                        brand: payload.brand,
+                        country: payload.country
+                    }
+                }
+            };
+        case DELETE_NAME:
+            return {
+                ...state,
+                names: _.omit(state.names, payload)
             }
 
         default:

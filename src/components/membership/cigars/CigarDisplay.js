@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import MemberTemplate from '../../membership/MemberTemplate';
-import Toolbar from '../../membership/Toolbar';
+import MemberTemplate from '../MemberTemplate';
+import Toolbar from '../Toolbar';
 
 
 class BrandDisplay extends React.Component {

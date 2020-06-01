@@ -20,3 +20,17 @@ export const EDIT_BRAND = 'EDIT_BRAND';
 export const DELETE_BRAND = 'DELETE_BRAND';
 
 
+export const CREATE_NAME = 'CREATE_NAME';
+export const FETCH_NAMES = 'FETCH_NAMES';
+export const FETCH_NAME = 'FETCH_NAME';
+export const EDIT_NAME = 'EDIT_NAME';
+export const DELETE_NAME = 'DELETE_NAME';
+
+
+export const CREATE_CIGAR = 'CREATE_CIGAR';
+export const FETCH_CIGARS = 'FETCH_CIGARS';
+export const FETCH_CIGAR = 'FETCH_CIGAR';
+export const EDIT_CIGAR = 'EDIT_CIGAR';
+export const DELETE_CIGAR = 'DELETE_CIGAR';
+
+

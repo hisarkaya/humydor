@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Dropdown } from 'semantic-ui-react';
 
-class BrandForm extends React.Component {
+class NameForm extends React.Component {
 
     onSubmit = formValues => {
         this.props.onSubmit(formValues);
@@ -39,8 +39,10 @@ class BrandForm extends React.Component {
                 <Dropdown
                     selection {...input}
                     value={input.value}
-                    onChange={ (param,data)  => input.onChange(data.value)}
-                    placeholder="select country"
+                    onChange={ (param, data)  => input.onChange(data.value)}
+                    onBlur={ (param, data)  => input.onChange(data.value)}
+                    placeholder="select brand"
+                    search
                     fluid
                     options={options}
                 />
@@ -52,8 +54,8 @@ class BrandForm extends React.Component {
     render() {
         return (
             <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="ui form error">
-                <Field name="name" component={this.renderInput} label="name" />
-                <Field name="countryId" component={this.renderDropdown} label="country" options={this.props.countries} />
+                <Field name="title" component={this.renderInput} label="title" />
+                <Field name="brandId" component={this.renderDropdown} label="brand" options={this.props.brands} />
                 <button className="ui button primary">submit</button>
             </form>
         );
@@ -62,18 +64,18 @@ class BrandForm extends React.Component {
 
 const validate = formValues => {
     const errors = {};
-    if(!formValues.name) {
-        errors.name = "brand name required";
+    if(!formValues.title) {
+        errors.title = "title required";
     }
-    if(!formValues.countryId) {
-        errors.countryId = "Country name required";
+    if(!formValues.brandId) {
+        errors.brandId = "brand required";
     }
     return errors;
 }
 
 export default reduxForm(
     {
-        form: 'brandForm',
+        form: 'nameForm',
         validate
     }
-)(BrandForm);
+)(NameForm);

@@ -3,31 +3,31 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import MemberTemplate from '../../membership/MemberTemplate';
-import BrandForm from './BrandForm';
+import NameForm from './NameForm';
 import Toolbar from '../../membership/Toolbar';
-import { createBrand, fetchCountries } from '../../../actions/database';
+import { createName, fetchBrands } from '../../../actions/database';
 
 
-class BrandCreate extends React.Component {
+class NameCreate extends React.Component {
 
     componentDidMount() {
-        this.props.fetchCountries();
+        this.props.fetchBrands();
     }
 
     onSubmit = formValues => {
-        this.props.createBrand(formValues);
+        this.props.createName(formValues);
     }
 
-    getCountryOption = () => {
-        const { countries } = this.props;
+    getBrandOption = () => {
+        const { brands } = this.props;
         var options = [];
-        if (countries) {
-            Object.keys(countries).forEach(id => {
-                var country = countries[id];
+        if (brands) {
+            Object.keys(brands).forEach(id => {
+                var brand = brands[id];
                 options.push({
+                    flag: brand.country.code,
                     key: id,
-                    flag: country.code,
-                    text: country.name,
+                    text: `${brand.name} (${brand.country.name})`,
                     value: id
                 });
             });
@@ -39,19 +39,19 @@ class BrandCreate extends React.Component {
 
         return (
             <MemberTemplate
-                className="hmy-brand-create"
+                className="hmy-name-create"
                 pageCode="database"
-                pageTitle="add brand">
+                pageTitle="add cigar name">
 
                 <Toolbar >
-                    <Link to="/brands" className="ui labeled icon blue button">
+                    <Link to="/names" className="ui labeled icon blue button">
                         <i className="list icon" />List
                     </Link>
                 </Toolbar>
                 
-                <BrandForm 
+                <NameForm 
                     onSubmit={this.onSubmit} 
-                    countries={this.getCountryOption()} />
+                    brands={this.getBrandOption()} />
 
             </MemberTemplate>
         );
@@ -60,8 +60,8 @@ class BrandCreate extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        countries: state.database.countries
+        brands: state.database.brands
     }
 }
 
-export default connect(mapStateToProps, { createBrand, fetchCountries })(BrandCreate);
+export default connect(mapStateToProps, { createName, fetchBrands })(NameCreate);

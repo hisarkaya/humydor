@@ -38,7 +38,7 @@ class Header extends React.Component {
                 <Menu borderless text className="hmy-header-menu">
                     <Container>
                         <Menu.Item header>
-                            <span className="hmy-brand">Humydor</span>
+                            <span className="hmy-brand">Hu<span>my</span>dor</span>
                         </Menu.Item>
                         <Menu.Menu position="right">
                             <Dropdown

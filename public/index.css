@@ -15,6 +15,10 @@ body {
     border-radius: 0px !important;
 }
 
+.hmy-brand span {
+    color:#333;
+}
+
 .hmy-signin,
 .hmy-loader,
 .hmy-signup,
