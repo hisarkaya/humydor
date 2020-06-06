@@ -99,8 +99,8 @@ class SMUAuth extends React.Component {
 const mapStateToProps = (state) => {
     return {
         isAuthenticated: state.auth.isAuthenticated,
-        isContainerLoading: state.auth.isContainerLoading,
-        errorContainer: state.auth.errorContainer
+        isContainerLoading: state.common.isContainerLoading,
+        errorContainer: state.common.errorContainer
     }
 }
 export default connect(mapStateToProps, { getAuth })(SMUAuth);

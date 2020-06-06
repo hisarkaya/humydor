@@ -57,16 +57,15 @@ class CountryList extends React.Component {
         return (
             <MemberTemplate
                 className="hmy-country-list"
-                pageCode="database"
-                pageTitle="country list">
+                pageCode="database">
 
-                <Toolbar >
-                    <Link to="/countries/new" className="ui labeled icon button">
-                        <i className="plus blue icon" />Add
+                <Toolbar header="country list">
+                    <Link to="/countries/new" className="item">
+                        <i className="plus blue icon" />
                     </Link>
                 </Toolbar>
 
-                <table className="ui celled table">
+                <table className="ui celled attached fluid table">
                     <thead>
                         <tr>
                             <th></th>

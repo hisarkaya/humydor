@@ -18,25 +18,35 @@ class CountryEdit extends React.Component {
     }
 
     render() {
-        if (!this.props.country) {
+
+        const { country, formMessage } = this.props;
+
+
+        if (!country) {
             return null;
         }
+
         return (
+
             <MemberTemplate
                 className="hmy-country-create"
-                pageCode="database"
-                pageTitle="edit country">
+                pageCode="database">
 
-                <Toolbar >
-                    <Link to="/countries" className="ui labeled icon blue button">
-                        <i className="list icon" />List
+                <Toolbar header="edit country">
+                    <Link to="/countries/new" className="item">
+                        <i className="plus blue icon" />
+                    </Link>
+                    <Link to="/countries" className="item">
+                        <i className="list icon" />
                     </Link>
                 </Toolbar>
-    
+
                 <CountryForm
-                 initialValues={this.props.country}
-                 onSubmit={this.onSubmit} 
-                 />
+                    hideCancel={formMessage.time && (Date.now() - formMessage.time < 5000 )}
+                    form="countryFormEdit"
+                    initialValues={{ code: country.code, name: country.name }}
+                    onSubmit={this.onSubmit}
+                />
 
             </MemberTemplate>
         );
@@ -45,8 +55,9 @@ class CountryEdit extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        country: state.database.countries[ownProps.match.params.id]
+        country: state.database.countries[ownProps.match.params.id],
+        formMessage: state.common.formMessage
     }
 }
 
-export default connect(mapStateToProps, { fetchCountry , editCountry })(CountryEdit);
+export default connect(mapStateToProps, { fetchCountry, editCountry })(CountryEdit);

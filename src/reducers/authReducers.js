@@ -1,8 +1,8 @@
 import {
 
-    SET_WINDOW_LOADING,
-    SET_CONTAINER_LOADING,
-    SET_ITEM_LOADING,
+    // SET_WINDOW_LOADING,
+    // SET_CONTAINER_LOADING,
+    // SET_ITEM_LOADING,
     GET_SMU_SUCCESS,
     GET_USER_SUCCESS,
     SET_AUTH_WARNING,
@@ -12,12 +12,12 @@ import {
 
 const defaultstate = {
 
-    isWindowLoading: false,
-    isContainerLoading: false,
-    isItemLoading: false,
-    errorWindow: null,
-    errorItem: null,
-    errorContainer: null,
+    // isWindowLoading: false,
+    // isContainerLoading: false,
+    // isItemLoading: false,
+    // errorWindow: null,
+    // errorItem: null,
+    // errorContainer: null,
     isAuthenticated: false,
     smuUser: {},
     user: {},
@@ -33,24 +33,24 @@ export default (state = defaultstate, { type, payload }) => {
 
     switch (type) {
 
-        case SET_WINDOW_LOADING:
-            return {
-                ...state,
-                isWindowLoading: payload.flag,
-                errorWindow: payload.error
-            }
-        case SET_ITEM_LOADING:
-            return {
-                ...state,
-                isItemLoading: payload.flag,
-                errorItem: payload.error
-            }
-        case SET_CONTAINER_LOADING:
-            return {
-                ...state,
-                isContainerLoading: payload.flag,
-                errorContainer: payload.error
-            }
+        // case SET_WINDOW_LOADING:
+        //     return {
+        //         ...state,
+        //         isWindowLoading: payload.flag,
+        //         errorWindow: payload.error
+        //     }
+        // case SET_ITEM_LOADING:
+        //     return {
+        //         ...state,
+        //         isItemLoading: payload.flag,
+        //         errorItem: payload.error
+        //     }
+        // case SET_CONTAINER_LOADING:
+        //     return {
+        //         ...state,
+        //         isContainerLoading: payload.flag,
+        //         errorContainer: payload.error
+        //     }
         case GET_SMU_SUCCESS:
             email_splitted = payload.email && payload.email.split('@')[0].replace(regexExcludeUsername, '');
             proposed_username = email_splitted ? email_splitted + '-' + payload.uid.substr(-6).replace(regexExcludeUsername, '').toLowerCase() : '';

@@ -197,16 +197,16 @@ const mapStateToProps = state => {
             photoURL: state.auth.smuUser.photoURL,
             username: state.auth._username,
             email: state.auth.smuUser.email,
-            errorItem: state.auth.errorItem
+            errorItem: state.common.errorItem
         },
         uid: state.auth.smuUser.uid,
         photoURL: state.auth.smuUser.photoURL,
         isAuthenticated: state.auth.isAuthenticated,
         auth_warning: state.auth.auth_warning,
-        isContainerLoading: state.auth.isContainerLoading,
-        errorContainer : state.auth.errorContainer,
-        isItemLoading: state.auth.isItemLoading,
-        errorItem: state.auth.errorItem,
+        isContainerLoading: state.common.isContainerLoading,
+        errorContainer : state.common.errorContainer,
+        isItemLoading: state.common.isItemLoading,
+        errorItem: state.common.errorItem,
     }
 }
 

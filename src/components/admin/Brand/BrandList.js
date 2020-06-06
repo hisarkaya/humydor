@@ -25,12 +25,9 @@ class BrandList extends React.Component {
             const editTo = `/brands/edit/${item}`;
             const deleteTo = `/brands/delete/${item}`;
             const displayTo = `/brands/display/${item}`;
-            const flagClass = `${brand.country.code} flag`;
             
-
             return (
                 <tr key={item}>
-                    <td className="center aligned collapsing" data-label="countryCode"><i className={flagClass} /></td>
                     <td data-label="name">{brand.name}</td>
                     <td className="right aligned collapsing">
                         <div className="ui small basic icon buttons">
@@ -47,8 +44,6 @@ class BrandList extends React.Component {
                     </td>
                 </tr>
             );
-
-
         });
     }
 
@@ -56,19 +51,15 @@ class BrandList extends React.Component {
         return (
             <MemberTemplate
                 className="hmy-brand-list"
-                pageCode="database"
-                pageTitle="brand list">
-
-                <Toolbar >
-                    <Link to="/brands/new" className="ui labeled icon button">
-                        <i className="plus blue icon" />Add
+                pageCode="database">
+                <Toolbar header="brand list">
+                    <Link to="/brands/new" className="item">
+                        <i className="plus blue icon" />
                     </Link>
                 </Toolbar>
-
-                <table className="ui celled table">
+                <table className="ui celled  attached fluid table">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>name</th>
                             <th></th>
                         </tr>
@@ -77,7 +68,6 @@ class BrandList extends React.Component {
                         {this.renderList()}
                     </tbody>
                 </table>
-
             </MemberTemplate>
         );
     }

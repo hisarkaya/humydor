@@ -87,9 +87,9 @@ class Header extends React.Component {
                                 <Dropdown.Item as={Link} to="/brands">
                                     brands
                                 </Dropdown.Item>
-                                <Dropdown.Item as={Link} to="/names">
+                                {/* <Dropdown.Item as={Link} to="/names">
                                     cigar names
-                                </Dropdown.Item>
+                                </Dropdown.Item> */}
                             </Dropdown.Menu>
                         </Dropdown>
                         )

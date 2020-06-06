@@ -22,7 +22,7 @@ const AuthRoute = ({ component: Component, isWindowLoading, location, isAuthenti
 
 const mapStateToProps = (state) => {
     return {
-        isWindowLoading: state.auth.isWindowLoading,
+        isWindowLoading: state.common.isWindowLoading,
         isAuthenticated: state.auth.isAuthenticated,
         user: state.auth.user
     }

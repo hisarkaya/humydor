@@ -20,11 +20,11 @@ import BrandEdit from './admin/Brand/BrandEdit';
 import BrandDisplay from './admin/Brand/BrandDisplay';
 import BrandDelete from './admin/Brand/BrandDelete';
 
-import NameList from './admin/Name/NameList';
-import NameCreate from './admin/Name/NameCreate';
-import NameEdit from './admin/Name/NameEdit';
-import NameDisplay from './admin/Name/NameDisplay';
-import NameDelete from './admin/Name/NameDelete';
+// import NameList from './admin/Name/NameList';
+// import NameCreate from './admin/Name/NameCreate';
+// import NameEdit from './admin/Name/NameEdit';
+// import NameDisplay from './admin/Name/NameDisplay';
+// import NameDelete from './admin/Name/NameDelete';
 
 import SignIn from './common/SignIn';
 import SignUp from './common/SignUp';
@@ -63,11 +63,11 @@ const App = (props) => {
             <AuthRoute exact path="/brands/delete/:id" roles={[Role.Admin]} component={BrandDelete} />
             <AuthRoute exact path="/brands/display/:id" roles={[Role.Admin]} component={BrandDisplay} />
 
-            <AuthRoute exact path="/names" roles={[Role.Admin]} component={NameList} />
+            {/* <AuthRoute exact path="/names" roles={[Role.Admin]} component={NameList} />
             <AuthRoute exact path="/names/new" roles={[Role.Admin]} component={NameCreate} />
             <AuthRoute exact path="/names/edit/:id" roles={[Role.Admin]} component={NameEdit} />
             <AuthRoute exact path="/names/delete/:id" roles={[Role.Admin]} component={NameDelete} />
-            <AuthRoute exact path="/names/display/:id" roles={[Role.Admin]} component={NameDisplay} />
+            <AuthRoute exact path="/names/display/:id" roles={[Role.Admin]} component={NameDisplay} /> */}
            
             <Route path="/terms-and-conditions" exact component={TermsConditions} />
             <Route path="/signup-form/" exact component={SignUpForm} />
@@ -79,7 +79,7 @@ const App = (props) => {
 
 const mapStateToProps = state => {
     return {
-        isWindowLoading: state.auth.isWindowLoading
+        isWindowLoading: state.common.isWindowLoading
     }
 }
 

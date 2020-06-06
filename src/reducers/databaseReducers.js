@@ -23,7 +23,10 @@ const defaultState = {
     names: {},
     countriesFetched: false,
     brandsFetched: false,
-    namesFetched: false
+    namesFetched: false,
+    brandsPaginated: {
+        
+    } 
 
 }
 
@@ -55,8 +58,23 @@ export default (state = defaultState, action) => {
                 countries: _.omit(state.countries, payload)
             }
 
+
+
+
+
         case FETCH_BRANDS:
-            return { ...state, brands: { ...state.brands, ...payload }, brandsFetched: true };
+            return { 
+                ...state, 
+                brands: { 
+                    ...state.brands, 
+                    ...payload 
+                },
+                brandsFetched: true,
+                brandsArr: Object.keys(payload).map(i => {
+                    var obj = payload[i];
+                    return {...obj, 'key': i}
+                })
+            };
         case FETCH_BRAND:
             return { ...state, brands: { ...state.brands, [payload.id]: payload.brand } };
         case CREATE_BRAND:

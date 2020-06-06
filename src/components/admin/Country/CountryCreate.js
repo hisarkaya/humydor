@@ -17,16 +17,18 @@ class CountryCreate extends React.Component {
         return (
             <MemberTemplate
                 className="hmy-country-create"
-                pageCode="database"
-                pageTitle="add country">
+                pageCode="database">
 
-                <Toolbar >
-                    <Link to="/countries" className="ui labeled icon blue button">
-                        <i className="list icon" />List
+                <Toolbar header="add country" >
+                    <Link to="/countries" className="item">
+                        <i className="list icon" />
                     </Link>
                 </Toolbar>
                 
-                <CountryForm onSubmit={this.onSubmit} />
+                <CountryForm
+                    hideCancel={false}
+                    form="countryFormCreate" 
+                    onSubmit={this.onSubmit} />
 
             </MemberTemplate>
         );

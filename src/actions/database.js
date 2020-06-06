@@ -18,7 +18,7 @@ import {
 } from './types';
 
 import history from '../history';
-import { setContainerLoading } from './common';
+import { setContainerLoading, setFormMessage } from './common';
 import { firebase_core, firebase_store } from '../firebase';
 
 
@@ -48,7 +48,8 @@ export const createCountry = formValues => (dispatch, getState) => {
                 .then(doc => {
                     dispatch(createCountrySuccess({ id: docRef.id, country: doc.data() }));
                     dispatch(setContainerLoading({ flag: false }));
-                    history.push('/countries');
+                    dispatch(setFormMessage({text: 'country created sucessfully.'}));
+                    history.push(`/countries/edit/${docRef.id}`);
                 })
                 .catch(error => {
                     dispatch(setContainerLoading({ flag: false, error }));
@@ -77,8 +78,6 @@ export const fetchCountries = () => (dispatch, getState) => {
         dispatch(setContainerLoading({ flag: false }));
         dispatch(fetchCountriesSuccess(countries));
     } else {
-
-        console.log('firestore called for countries');
         
         tmpCountries = {};
         firebase_store.collection("countries")
@@ -120,8 +119,6 @@ export const fetchCountry = countryId => (dispatch, getState) => {
         
     } else {
 
-        console.log('firestore called for country');
-
         firebase_store.collection("countries")
         .doc(countryId)
         .get()
@@ -155,7 +152,8 @@ export const editCountry = (countryId, formValues) => dispatch => {
         .then(() => {
             dispatch(setContainerLoading({ flag: false }));
             dispatch(editCountrySuccess({ id: countryId, name, code }));
-            history.push('/countries');
+            dispatch(setFormMessage({text: 'country updated sucessfully.'}));
+            history.push(`/countries/edit/${countryId}`);
         })
         .catch(error => {
             dispatch(setContainerLoading({ flag: false, error }));
@@ -177,12 +175,12 @@ export const deleteCountry = countryId => dispatch => {
         .then(() => {
             dispatch(setContainerLoading({ flag: false }));
             dispatch(deleteCountrySuccess(countryId));
+            dispatch(setFormMessage({text: 'country deleted sucessfully.'}));
             history.push('/countries');
         })
         .catch(error => {
             dispatch(setContainerLoading({ flag: false, error }));
         });
-
 }
 
 
@@ -197,21 +195,13 @@ const createBrandSuccess = payload => {
 export const createBrand = formValues => (dispatch, getState) => {
 
     const { uid } = getState().auth.smuUser;
-    const { countries } = getState().database;
-    const { name, countryId } = formValues;
-    const country = countries[countryId];
-    const countryObj = {
-        id: countryId,
-        name: country.name,
-        code: country.code
-    };
+    const { name } = formValues;
 
     dispatch(setContainerLoading({ flag: true }));
 
     firebase_store.collection("brands")
         .add({
             name,
-            country: countryObj,
             userId: uid,
             state: 1,
             created: firebase_core.firestore.FieldValue.serverTimestamp()
@@ -221,7 +211,8 @@ export const createBrand = formValues => (dispatch, getState) => {
                 .then(doc => {
                     dispatch(createBrandSuccess({ id: docRef.id, brand: doc.data() }));
                     dispatch(setContainerLoading({ flag: false }));
-                    history.push('/brands');
+                    dispatch(setFormMessage({text: 'brand created sucessfully.'}));
+                    history.push(`/brands/edit/${docRef.id}`);
                 })
                 .catch(error => {
                     dispatch(setContainerLoading({ flag: false, error }));
@@ -250,8 +241,6 @@ export const fetchBrands = () => (dispatch, getState) => {
         dispatch(setContainerLoading({ flag: false }));
         dispatch(fetchBrandsSuccess(brands));
     } else {
-
-        console.log('firestore called for brands');
         
         tmpBrands = {};
         firebase_store.collection("brands")
@@ -292,8 +281,6 @@ export const fetchBrand = (brandId) => (dispatch, getState) => {
         dispatch(setContainerLoading({ flag: false }));
     } else {
 
-        console.log('firestore called for brand');
-
         firebase_store.collection("brands")
         .doc(brandId)
         .get()
@@ -318,25 +305,19 @@ const editBrandSuccess = payload => {
     }
 }
 
-export const editBrand = (brandId, formValues) => (dispatch, getState) => {
-
-    const { countries } = getState().database;
-    const { name, countryId } = formValues;
-    const country = countries[countryId];
-    const countryObj = {
-        id: countryId,
-        name: country.name,
-        code: country.code
-    };
+export const editBrand = (brandId, formValues) => (dispatch) => {
+   
+    const { name } = formValues;
 
     dispatch(setContainerLoading({ flag: true }));
     firebase_store.collection("brands")
         .doc(brandId)
-        .update({ name, country: countryObj  })
+        .update({ name })
         .then(() => {
             dispatch(setContainerLoading({ flag: false }));
-            dispatch(editBrandSuccess({ id: brandId, name, country: countryObj }));
-            history.push('/brands');
+            dispatch(editBrandSuccess({ id: brandId, name }));
+            dispatch(setFormMessage({text: 'brand updated sucessfully.'}));
+            history.push(`/brands/edit/${brandId}`);
         })
         .catch(error => {
             dispatch(setContainerLoading({ flag: false, error }));
@@ -358,6 +339,7 @@ export const deleteBrand = brandId => dispatch => {
         .then(() => {
             dispatch(setContainerLoading({ flag: false }));
             dispatch(deleteBrandSuccess(brandId));
+            dispatch(setFormMessage({text: 'brand deleted sucessfully.'}));
             history.push('/brands');
         })
         .catch(error => {
