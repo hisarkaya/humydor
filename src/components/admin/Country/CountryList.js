@@ -69,8 +69,8 @@ class CountryList extends React.Component {
                     <thead>
                         <tr>
                             <th></th>
-                            <th className="center aligned" >code</th>
-                            <th>name</th>
+                            <th className="center aligned" >CODE</th>
+                            <th>NAME</th>
                             <th></th>
                         </tr>
                     </thead>

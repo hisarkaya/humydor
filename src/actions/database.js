@@ -6,9 +6,16 @@ import {
     DELETE_COUNTRY,
     CREATE_BRAND,
     FETCH_BRANDS,
+    FETCH_BRANDS_BY_PAGE,
+    FETCH_SORTED_BRANDS,
+    FETCH_SERACHED_BRANDS,
     FETCH_BRAND,
     EDIT_BRAND,
     DELETE_BRAND,
+
+
+
+
     CREATE_NAME,
     FETCH_NAMES,
     FETCH_NAME,
@@ -252,12 +259,35 @@ export const fetchBrands = () => (dispatch, getState) => {
             });
             dispatch(setContainerLoading({ flag: false }));
             dispatch(fetchBrandsSuccess(tmpBrands));
+            dispatch(fetchBrandsByPage(1));
         })
         .catch(error => {
             dispatch(setContainerLoading({ flag: false, error }));
         });
     }
 }
+
+export const fetchBrandsByPage = page => {
+    return  {
+        type: FETCH_BRANDS_BY_PAGE,
+        payload: page
+    }
+}
+
+export const fetchSortedBrands = (column, order) => {
+    return  {
+        type: FETCH_SORTED_BRANDS,
+        payload: {column, order}
+    }
+}
+
+export const fetchSearchedBrands = term => {
+    return  {
+        type: FETCH_SERACHED_BRANDS,
+        payload: term
+    }
+}
+
 
 const fetchBrandSuccess = payload => {
     return {

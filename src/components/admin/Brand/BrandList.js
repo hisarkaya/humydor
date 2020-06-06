@@ -3,35 +3,45 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import MemberTemplate from '../../membership/MemberTemplate';
+import Pagination from '../../membership/Pagination';
 import Toolbar from '../../membership/Toolbar';
-import { fetchBrands } from '../../../actions/database';
+import { fetchBrands, fetchSortedBrands, fetchSearchedBrands } from '../../../actions/database';
 
 
 class BrandList extends React.Component {
 
+    state = {
+        search: ''
+    }
+
     componentDidMount() {
-        this.props.fetchBrands();
+        const { fetchBrands, brands  } = this.props;
+        fetchBrands();
+        if (brands) {
+            this.setState({search: brands.search});
+        }
     }
 
     renderList = () => {
+
         const { brands } = this.props;
 
         if (!brands) {
             return null;
         }
 
-        return Object.keys(brands).map(item => {
-            const brand = brands[item];
-            const editTo = `/brands/edit/${item}`;
-            const deleteTo = `/brands/delete/${item}`;
-            const displayTo = `/brands/display/${item}`;
-            
+        return brands.data.map(brand => {
+            const key = brand.key;
+            const editTo = `/brands/edit/${key}`;
+            const deleteTo = `/brands/delete/${key}`;
+            const displayTo = `/brands/display/${key}`;
+
             return (
-                <tr key={item}>
+                <tr key={key}>
                     <td data-label="name">{brand.name}</td>
                     <td className="right aligned collapsing">
                         <div className="ui small basic icon buttons">
-                        <Link className="ui button" to={displayTo}>
+                            <Link className="ui button" to={displayTo}>
                                 <i className="icon blue info circle" />
                             </Link>
                             <Link className="ui button" to={editTo}>
@@ -47,26 +57,67 @@ class BrandList extends React.Component {
         });
     }
 
+    sortList = (column, currentOrder) => {
+        this.props.fetchSortedBrands(column, currentOrder === 'desc' ? 'asc' : 'desc');
+    }
+
+    onSearchChange = e => {
+        this.setState({ search: e.target.value  });
+        this.props.fetchSearchedBrands(e.target.value);
+
+    }
+
     render() {
+        const { brands } = this.props;
+
+        if (!brands) {
+            return null;
+        }
+
         return (
             <MemberTemplate
                 className="hmy-brand-list"
                 pageCode="database">
                 <Toolbar header="brand list">
+
+                    <div className="item">
+                        <div className="ui transparent icon input">
+                            <input 
+                                type="text" 
+                                value={this.state.search}
+                                onChange={e => this.onSearchChange(e) }
+                                placeholder="Search..." 
+                                
+                                />
+                            <i className="search link icon"></i>
+                        </div>
+                    </div>
+
                     <Link to="/brands/new" className="item">
                         <i className="plus blue icon" />
                     </Link>
                 </Toolbar>
-                <table className="ui celled  attached fluid table">
+                <table className="ui celled sortable attached fluid table">
                     <thead>
                         <tr>
-                            <th>name</th>
+                            <th onClick={() => this.sortList('name', brands.sortOrder)} className={`sorted ${brands.sortOrder}ending`}>NAME</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {this.renderList()}
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colSpan="2">
+                                <Pagination
+                                    page={brands.page}
+                                    pageSize={brands.pageSize}
+                                    total={brands.total}
+                                    totalPages={brands.totalPages} />
+                            </th>
+                        </tr>
+                    </tfoot>
                 </table>
             </MemberTemplate>
         );
@@ -74,9 +125,10 @@ class BrandList extends React.Component {
 }
 
 const mapStateToProps = state => {
+    
     return {
-        brands: state.database.brands
+        brands: state.database.listedBrands
     }
 }
 
-export default connect(mapStateToProps, { fetchBrands })(BrandList);
+export default connect(mapStateToProps, { fetchBrands, fetchSortedBrands, fetchSearchedBrands })(BrandList);
