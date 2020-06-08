@@ -31,6 +31,12 @@ class Pagination extends React.Component {
     }
 
     render() {
+        const { total } = this.props;
+        
+        if( !total) {
+            return null;
+        }
+
         return (
             <div className="ui right floated pagination menu">
                 {this.renderLinks()}
