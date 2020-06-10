@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import _ from 'lodash';
 import FormButtons from '../../membership/FormButtons';
 
 class CountryForm extends React.Component {
@@ -44,13 +45,25 @@ class CountryForm extends React.Component {
     }
 }
 
-const validate = formValues => {
+const validate = (formValues, {countries}) => {
+
     const errors = {};
     if (!formValues.name) {
         errors.name = "name required";
     }
+    if (formValues.name) {
+        if (_.findKey(countries, function(c) { return c.name.toLowerCase() === formValues.name.toLowerCase(); })) {
+            errors.name = "name already exists";
+        }
+    }
+
     if (!formValues.code) {
         errors.code = "code required";
+    }
+    if (formValues.code) {
+        if (_.findKey(countries, function(c) { return c.code.toLowerCase() === formValues.code.toLowerCase(); })) {
+            errors.code = "code already exists";
+        }
     }
     return errors;
 }

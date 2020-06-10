@@ -5,9 +5,13 @@ import { Link } from 'react-router-dom';
 import MemberTemplate from '../../membership/MemberTemplate';
 import CountryForm from './CountryForm';
 import Toolbar from '../../membership/Toolbar';
-import { createCountry } from '../../../actions/database';
+import { fetchCountries, createCountry } from '../../../actions/database';
 
 class CountryCreate extends React.Component {
+
+    componentDidMount() {
+        this.props.fetchCountries();
+    }
 
     onSubmit = formValues => {
         this.props.createCountry(formValues);
@@ -26,6 +30,7 @@ class CountryCreate extends React.Component {
                 </Toolbar>
                 
                 <CountryForm
+                    countries={this.props.countries}
                     hideCancel={false}
                     form="countryFormCreate" 
                     onSubmit={this.onSubmit} />
@@ -35,4 +40,11 @@ class CountryCreate extends React.Component {
     }
 }
 
-export default connect(null, { createCountry })(CountryCreate);
+
+const mapStateToProps = state => {
+    return {
+        countries: state.database.countries
+    }
+}
+
+export default connect(mapStateToProps, { createCountry, fetchCountries })(CountryCreate);

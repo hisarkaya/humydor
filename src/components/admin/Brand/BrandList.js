@@ -15,10 +15,10 @@ class BrandList extends React.Component {
     }
 
     componentDidMount() {
-        const { fetchBrands, brands  } = this.props;
+        const { fetchBrands, brands } = this.props;
         fetchBrands();
         if (brands) {
-            this.setState({search: brands.search});
+            this.setState({ search: brands.search });
         }
     }
 
@@ -28,6 +28,16 @@ class BrandList extends React.Component {
 
         if (!brands) {
             return null;
+        }
+
+        if (!brands.data.length) {
+            return (
+                <tr>
+                    <td colSpan="2">
+                        No brands found.
+                    </td>
+                </tr>
+            );
         }
 
         return brands.data.map(brand => {
@@ -62,7 +72,7 @@ class BrandList extends React.Component {
     }
 
     onSearchChange = e => {
-        this.setState({ search: e.target.value  });
+        this.setState({ search: e.target.value });
         this.props.fetchSearchedBrands(e.target.value);
 
     }
@@ -82,13 +92,13 @@ class BrandList extends React.Component {
 
                     <div className="item">
                         <div className="ui transparent icon input">
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 value={this.state.search}
-                                onChange={e => this.onSearchChange(e) }
-                                placeholder="Search..." 
-                                
-                                />
+                                onChange={e => this.onSearchChange(e)}
+                                placeholder="Search..."
+
+                            />
                             <i className="search link icon"></i>
                         </div>
                     </div>
@@ -107,17 +117,21 @@ class BrandList extends React.Component {
                     <tbody>
                         {this.renderList()}
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colSpan="2">
-                                <Pagination
-                                    page={brands.page}
-                                    pageSize={brands.pageSize}
-                                    total={brands.total}
-                                    totalPages={brands.totalPages} />
-                            </th>
-                        </tr>
-                    </tfoot>
+
+                    {brands.total > 0 &&
+                        <tfoot>
+                            <tr>
+                                <th colSpan="2">
+                                    <Pagination
+                                        page={brands.page}
+                                        pageSize={brands.pageSize}
+                                        total={brands.total}
+                                        totalPages={brands.totalPages} />
+                                </th>
+                            </tr>
+                        </tfoot>
+                    }
+
                 </table>
             </MemberTemplate>
         );
@@ -125,7 +139,7 @@ class BrandList extends React.Component {
 }
 
 const mapStateToProps = state => {
-    
+
     return {
         brands: state.database.listedBrands
     }
