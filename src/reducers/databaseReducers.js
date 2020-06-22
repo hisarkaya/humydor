@@ -5,6 +5,19 @@ import {
     FETCH_COUNTRIES,
     FETCH_COUNTRY,
     DELETE_COUNTRY,
+
+    CREATE_COLOR,
+    EDIT_COLOR,
+    FETCH_COLORS,
+    FETCH_COLOR,
+    DELETE_COLOR,
+
+    CREATE_SHAPE,
+    FETCH_SHAPES,
+    FETCH_SHAPE,
+    EDIT_SHAPE,
+    DELETE_SHAPE,
+
     CREATE_BRAND,
     FETCH_BRANDS,
     FETCH_BRANDS_BY_PAGE,
@@ -13,6 +26,16 @@ import {
     FETCH_BRAND,
     EDIT_BRAND,
     DELETE_BRAND,
+
+
+    CREATE_SOURCE,
+    FETCH_SOURCES,
+    FETCH_SOURCES_BY_PAGE,
+    FETCH_SORTED_SOURCES,
+    FETCH_SEARCHED_SOURCES,
+    FETCH_SOURCE,
+    EDIT_SOURCE,
+    DELETE_SOURCE,
 
 
     CREATE_NAME,
@@ -40,8 +63,8 @@ const getListedJSON = (json, page, pageSize, sortColumn, sortOrder, term) => {
         items;
 
     if (search) {
-        collection =  _.filter(collection, o => o.name.toLowerCase().indexOf(term.toLowerCase()) > -1);
-    }    
+        collection = _.filter(collection, o => o.name.toLowerCase().indexOf(term.toLowerCase()) > -1);
+    }
     items = _.orderBy(collection, [sc], [so]);
     items = _.drop(items, offset).slice(0, pgSize);
 
@@ -62,12 +85,22 @@ const defaultState = {
 
     countries: {},
     brands: {},
+    sources: {},
+    colors: {},
+    shapes: {},
+
     names: {},
 
     countriesFetched: false,
     brandsFetched: false,
+    sourcesFetched: false,
+    colorsFetched: false,
+    shapesFteched: false,
+
     namesFetched: false,
-    listedBrands: null
+
+    listedBrands: null,
+    listedSources: null
 
 }
 
@@ -98,6 +131,58 @@ export default (state = defaultState, action) => {
                 ...state,
                 countries: _.omit(state.countries, payload)
             }
+
+
+
+        case FETCH_SHAPES:
+            return { ...state, shapes: { ...state.shapes, ...payload }, shapesFetched: true };
+        case FETCH_SHAPE:
+            return { ...state, shapes: { ...state.shapes, [payload.id]: payload.shape } };
+        case CREATE_SHAPE:
+            return { ...state, shapes: { ...state.shapes, [payload.id]: payload.shape } };
+        case EDIT_SHAPE:
+            return {
+                ...state,
+                shapes: {
+                    ...state.shapes,
+                    [payload.id]: {
+                        ...state.shapes[payload.id],
+                        name: payload.name
+                    }
+                }
+            };
+        case DELETE_SHAPE:
+            return {
+                ...state,
+                shapes: _.omit(state.shapes, payload)
+            }
+
+
+
+        case FETCH_COLORS:
+            return { ...state, colors: { ...state.colors, ...payload }, colorsFetched: true };
+        case FETCH_COLOR:
+            return { ...state, colors: { ...state.colors, [payload.id]: payload.color } };
+        case CREATE_COLOR:
+            return { ...state, colors: { ...state.colors, [payload.id]: payload.color } };
+        case EDIT_COLOR:
+            return {
+                ...state,
+                colors: {
+                    ...state.colors,
+                    [payload.id]: {
+                        ...state.colors[payload.id],
+                        name: payload.name,
+                        code: payload.code
+                    }
+                }
+            };
+        case DELETE_COLOR:
+            return {
+                ...state,
+                colors: _.omit(state.colors, payload)
+            }
+
 
 
         case FETCH_BRANDS:
@@ -162,8 +247,7 @@ export default (state = defaultState, action) => {
                     ...state.brands,
                     [payload.id]: {
                         ...state.brands[payload.id],
-                        name: payload.name,
-                        country: payload.country
+                        name: payload.name
                     }
                 }
             };
@@ -173,6 +257,79 @@ export default (state = defaultState, action) => {
                 brands: _.omit(state.brands, payload)
             }
 
+
+
+        case FETCH_SOURCES:
+            return {
+                ...state,
+                sources: {
+                    ...state.sources,
+                    ...payload
+                },
+                sourcesFetched: true
+            };
+
+        case FETCH_SOURCES_BY_PAGE:
+            return {
+                ...state,
+                listedSources: getListedJSON(
+                    state.sources,
+                    payload,
+                    state.listedSources && state.listedSources.pageSize,
+                    state.listedSources && state.listedSources.sortColumn,
+                    state.listedSources && state.listedSources.sortOrder
+                )
+            }
+
+        case FETCH_SORTED_SOURCES:
+
+            return {
+                ...state,
+                listedSources: getListedJSON(
+                    state.sources,
+                    state.listedSources && state.listedSources.page,
+                    state.listedSources && state.listedSources.pageSize,
+                    payload.column,
+                    payload.order
+                )
+            };
+
+        case FETCH_SEARCHED_SOURCES:
+
+            return {
+                ...state,
+                listedSources: getListedJSON(
+                    state.sources,
+                    1,
+                    state.listedSources && state.listedSources.pageSize,
+                    state.listedSources && state.listedSources.sortColumn,
+                    state.listedSources && state.listedSources.sortOrder,
+                    payload
+                )
+            };
+
+
+
+        case FETCH_SOURCE:
+            return { ...state, sources: { ...state.sources, [payload.id]: payload.source } };
+        case CREATE_SOURCE:
+            return { ...state, sources: { ...state.sources, [payload.id]: payload.source } };
+        case EDIT_SOURCE:
+            return {
+                ...state,
+                sources: {
+                    ...state.sources,
+                    [payload.id]: {
+                        ...state.sources[payload.id],
+                        name: payload.name
+                    }
+                }
+            };
+        case DELETE_SOURCE:
+            return {
+                ...state,
+                sources: _.omit(state.sources, payload)
+            }
 
 
         case FETCH_NAMES:

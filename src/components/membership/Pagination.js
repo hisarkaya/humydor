@@ -1,19 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { fetchBrandsByPage } from '../../actions/database';
+
 
 class Pagination extends React.Component {
 
-    onPageClick = pn => {
-
-        const { page } = this.props;
-
-        if (pn !== page) {
-            this.props.fetchBrandsByPage(pn);
-        }
-        
+    onPageClick = pNo => {
+        this.props.onPagination(pNo);
     }
 
     renderLinks = () => {
@@ -45,4 +38,4 @@ class Pagination extends React.Component {
     }
 }
 
-export default connect(null, { fetchBrandsByPage })(Pagination);
+export default Pagination;

@@ -5,50 +5,50 @@ import { connect } from 'react-redux';
 import MemberTemplate from '../../membership/MemberTemplate';
 import Pagination from '../../membership/Pagination';
 import Toolbar from '../../membership/Toolbar';
-import { fetchBrands, fetchSortedBrands, fetchSearchedBrands, fetchBrandsByPage } from '../../../actions/database';
+import { fetchSources, fetchSortedSources, fetchSearchedSources, fetchSourcesByPage } from '../../../actions/database';
 
 
-class BrandList extends React.Component {
+class SourceList extends React.Component {
 
     state = {
         search: ''
     }
 
     componentDidMount() {
-        const { fetchBrands, brands } = this.props;
-        fetchBrands();
-        if (brands) {
-            this.setState({ search: brands.search });
+        const { fetchSources, sources } = this.props;
+        fetchSources();
+        if (sources) {
+            this.setState({ search: sources.search });
         }
     }
 
     renderList = () => {
 
-        const { brands } = this.props;
+        const { sources } = this.props;
 
-        if (!brands) {
+        if (!sources) {
             return null;
         }
 
-        if (!brands.data.length) {
+        if (!sources.data.length) {
             return (
                 <tr>
                     <td colSpan="2">
-                        No brands found.
+                        No sources found.
                     </td>
                 </tr>
             );
         }
 
-        return brands.data.map(brand => {
-            const key = brand.key;
-            const editTo = `/brands/edit/${key}`;
-            const deleteTo = `/brands/delete/${key}`;
-            const displayTo = `/brands/display/${key}`;
+        return sources.data.map(source => {
+            const key = source.key;
+            const editTo = `/sources/edit/${key}`;
+            const deleteTo = `/sources/delete/${key}`;
+            const displayTo = `/sources/display/${key}`;
 
             return (
                 <tr key={key}>
-                    <td data-label="name">{brand.name}</td>
+                    <td data-label="name">{source.name}</td>
                     <td className="right aligned collapsing">
                         <div className="ui small basic icon buttons">
                             <Link className="ui button" to={displayTo}>
@@ -68,33 +68,33 @@ class BrandList extends React.Component {
     }
 
     sortList = (column, currentOrder) => {
-        this.props.fetchSortedBrands(column, currentOrder === 'desc' ? 'asc' : 'desc');
+        this.props.fetchSortedSources(column, currentOrder === 'desc' ? 'asc' : 'desc');
     }
 
     onSearchChange = e => {
         this.setState({ search: e.target.value });
-        this.props.fetchSearchedBrands(e.target.value);
+        this.props.fetchSearchedSources(e.target.value);
     }
 
     onPagination = pn => {
-        const { brands, fetchBrandsByPage } = this.props;
-        if (pn !== brands.page) {
-            fetchBrandsByPage(pn);
+        const { sources, fetchSourcesByPage } = this.props;
+        if (pn !== sources.page) {
+            fetchSourcesByPage(pn);
         }
     }
 
     render() {
-        const { brands } = this.props;
+        const { sources } = this.props;
 
-        if (!brands) {
+        if (!sources) {
             return null;
         }
 
         return (
             <MemberTemplate
-                className="hmy-brand-list"
+                className="hmy-source-list"
                 pageCode="database">
-                <Toolbar header="brand list">
+                <Toolbar header="source list">
 
                     <div className="item">
                         <div className="ui transparent icon input">
@@ -109,14 +109,14 @@ class BrandList extends React.Component {
                         </div>
                     </div>
 
-                    <Link to="/brands/new" className="item">
+                    <Link to="/sources/new" className="item">
                         <i className="plus blue icon" />
                     </Link>
                 </Toolbar>
                 <table className="ui celled sortable attached fluid table">
                     <thead>
                         <tr>
-                            <th onClick={() => this.sortList('name', brands.sortOrder)} className={`sorted ${brands.sortOrder}ending`}>NAME</th>
+                            <th onClick={() => this.sortList('name', sources.sortOrder)} className={`sorted ${sources.sortOrder}ending`}>NAME</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -124,16 +124,16 @@ class BrandList extends React.Component {
                         {this.renderList()}
                     </tbody>
 
-                    {brands.total > 0 &&
+                    {sources.total > 0 &&
                         <tfoot>
                             <tr>
                                 <th colSpan="2">
                                     <Pagination
                                         onPagination={this.onPagination}
-                                        page={brands.page}
-                                        pageSize={brands.pageSize}
-                                        total={brands.total}
-                                        totalPages={brands.totalPages} />
+                                        page={sources.page}
+                                        pageSize={sources.pageSize}
+                                        total={sources.total}
+                                        totalPages={sources.totalPages} />
                                 </th>
                             </tr>
                         </tfoot>
@@ -148,8 +148,8 @@ class BrandList extends React.Component {
 const mapStateToProps = state => {
 
     return {
-        brands: state.database.listedBrands
+        sources: state.database.listedSources
     }
 }
 
-export default connect(mapStateToProps, { fetchBrands, fetchSortedBrands, fetchSearchedBrands, fetchBrandsByPage })(BrandList);
+export default connect(mapStateToProps, { fetchSources, fetchSortedSources, fetchSearchedSources, fetchSourcesByPage })(SourceList);
